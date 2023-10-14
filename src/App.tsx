@@ -1,9 +1,12 @@
 import './App.css'
+import SocialMediaButtons from './components/social-media-buttons/SocialMediaButtons'
+import TitleFollow from './components/title-follow/TitleFollow'
 
 function App() {
   return (
     <>
-      <h1 className='title'>Javier <br/>Garcia <br/>Cuevas</h1>
+      <TitleFollow></TitleFollow>
+      <SocialMediaButtons></SocialMediaButtons>
     </>
   )
 }
