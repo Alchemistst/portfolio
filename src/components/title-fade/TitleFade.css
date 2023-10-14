@@ -1,0 +1,68 @@
+h1.title {
+    font-family: 'Rubik Mono One', monospace;
+    white-space: pre-wrap;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+h1.title-accent {
+    color:#F9D371;
+}
+
+h1.title-color1 {
+    color:#F47340;
+}
+
+h1.title-color2 {
+    color:#EF2F88;
+}
+
+h1.title-color3 {
+    color:#8843F2;
+}
+
+.fade-out1 {
+	opacity: 1;
+	animation-name: fadeOutOpacity;
+	animation-iteration-count: infinite;
+	animation-timing-function: ease-in;
+	animation-duration: 3s;
+    
+}
+
+.fade-out2 {
+	opacity: 1;
+	animation-name: fadeOutOpacity;
+	animation-iteration-count: infinite;
+	animation-timing-function: ease-in;
+	animation-duration: 3s;
+    animation-delay: 1s;
+}
+
+.fade-out3 {
+	opacity: 1;
+	animation-name: fadeOutOpacity;
+	animation-iteration-count: infinite;
+	animation-timing-function: ease-in;
+	animation-duration: 3s;
+    animation-delay: 2s;
+
+}
+
+
+@keyframes fadeOutOpacity {
+	0% {
+		opacity: 1;
+        transform: translate(-50%, -50%);
+	}
+    50% {
+        opacity: 1;
+    }
+	100% {
+		opacity: 0;
+        transform: translate(-50%, -50%) scale(1.15);
+	}
+}
+
