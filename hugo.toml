@@ -1,0 +1,14 @@
+baseURL = 'https://example.org/'
+languageCode = 'en-us'
+title = "Hey 👽, I'm Javier"
+theme = 'hello-friend-ng'
+[params]
+homeSubtitle = "let's create something awesome"
+
+  [[params.social]]
+    name = "email"
+    url  = "mailto:javiermariagarciacuevas@gmail.com"
+
+  [[params.social]]
+    name = "linkedin"
+    url  = "https://www.linkedin.com/in/javiermgc"
