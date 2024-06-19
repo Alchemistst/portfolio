@@ -1,0 +1,31 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Posts on Hey 👽, I&#39;m Javier</title>
+        <link>http://localhost:1313/posts/</link>
+        <description>Recent content in Posts on Hey 👽, I&#39;m Javier</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en-us</language>
+        <lastBuildDate>Wed, 19 Jun 2024 00:26:31 +0200</lastBuildDate>
+        <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>[Nightly Dev Notes] Introduction</title>
+            <link>http://localhost:1313/posts/hello-world/</link>
+            <pubDate>Wed, 19 Jun 2024 00:26:31 +0200</pubDate>
+            
+            <guid>http://localhost:1313/posts/hello-world/</guid>
+            <description>Hi there 👽!
+With this series of blog posts I&amp;rsquo;d like to experiment with different concepts and ideas. The goal is to make short posts with very specific concepts, isolated, without the need to build a full application to see them in action.
+Why &amp;ldquo;Nightly&amp;rdquo;? Because most likely I&amp;rsquo;ll be doing this on my spare time, and that usualy only happens at night.
+I hope you find this useful, maybe as an example, maybe as inspiration or maybe to motivate you to use the concepts I explain, making you realise they weren&amp;rsquo;t concepts so difficult after all.</description>
+            <content type="html"><![CDATA[<p>Hi there 👽!</p>
+<p>With this series of blog posts I&rsquo;d like to experiment with different concepts and ideas. The goal is to make short posts with very specific concepts, isolated, without the need to build a full application to see them in action.</p>
+<p>Why &ldquo;<em>Nightly</em>&rdquo;? Because most likely I&rsquo;ll be doing this on my spare time, and that usualy only happens at night.</p>
+<p>I hope you find this useful, maybe as an example, maybe as inspiration or maybe to motivate you to use the concepts I explain, making you realise they weren&rsquo;t concepts so difficult after all.</p>
+<p>For now, this is all.
+Signing out&hellip;</p>
+]]></content>
+        </item>
+        
+    </channel>
+</rss>

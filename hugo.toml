@@ -3,7 +3,7 @@ languageCode = 'en-us'
 title = "Hey 👽, I'm Javier"
 theme = 'hello-friend-ng'
 [params]
-homeSubtitle = "let's create something awesome"
+homeSubtitle = "let's create something amazing"
 
   [[params.social]]
     name = "email"
@@ -12,3 +12,7 @@ homeSubtitle = "let's create something awesome"
   [[params.social]]
     name = "linkedin"
     url  = "https://www.linkedin.com/in/javiermgc"
+[[menu.main]]
+    identifier = "blog"
+    name       = "Blog"
+    url        = "/posts"
