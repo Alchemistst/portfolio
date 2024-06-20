@@ -1,23 +1,150 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-    <channel>
-        <title>Posts on Hey 👽, I&#39;m Javier</title>
-        <link>http://localhost:1313/posts/</link>
-        <description>Recent content in Posts on Hey 👽, I&#39;m Javier</description>
-        <generator>Hugo -- gohugo.io</generator>
-        <language>en-us</language>
-        <lastBuildDate>Thu, 20 Jun 2024 23:57:02 +0200</lastBuildDate>
-        <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
-        
-        <item>
-            <title>[NDN] Building a simple CRUD using GraphQL</title>
-            <link>http://localhost:1313/posts/crud-graphql/</link>
-            <pubDate>Thu, 20 Jun 2024 23:57:02 +0200</pubDate>
-            
-            <guid>http://localhost:1313/posts/crud-graphql/</guid>
-            <description>Hi there 👽!
+<!DOCTYPE html>
+<html lang="en">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="Hi there 👽!
 In this article I wanted to play around and experiment with using GraphQL. And so, I made the simplest CRUD application I could came up with, a TODO list.
-So&amp;hellip; GraphQL&amp;hellip; right? In case you don&amp;rsquo;t know, GraphQL is a query language for APIs that allows clients to request exactly the data they need. It provides efficient, flexible, and precise data fetching compared to traditional REST APIs.</description>
-            <content type="html"><![CDATA[<p>Hi there 👽!</p>
+So&amp;hellip; GraphQL&amp;hellip; right? In case you don&amp;rsquo;t know, GraphQL is a query language for APIs that allows clients to request exactly the data they need. It provides efficient, flexible, and precise data fetching compared to traditional REST APIs." />
+<meta name="keywords" content=", Nightly Dev Notes" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="http://localhost:1313/posts/crud-graphql/" />
+
+
+    <title>
+        
+            [NDN] Building a simple CRUD using GraphQL :: Hey 👽, I&#39;m Javier 
+        
+    </title>
+
+
+
+
+
+<link rel="stylesheet" href="/main.949191c1dcc9c4a887997048b240354e47152016d821198f89448496ba42e491.css" integrity="sha256-lJGRwdzJxKiHmXBIskA1TkcVIBbYIRmPiUSElrpC5JE=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+
+  <meta itemprop="name" content="[NDN] Building a simple CRUD using GraphQL">
+  <meta itemprop="description" content="Hi there 👽!
+In this article I wanted to play around and experiment with using GraphQL. And so, I made the simplest CRUD application I could came up with, a TODO list.
+So… GraphQL… right? In case you don’t know, GraphQL is a query language for APIs that allows clients to request exactly the data they need. It provides efficient, flexible, and precise data fetching compared to traditional REST APIs.">
+  <meta itemprop="datePublished" content="2024-06-20T23:57:02+02:00">
+  <meta itemprop="dateModified" content="2024-06-20T23:57:02+02:00">
+  <meta itemprop="wordCount" content="658">
+  <meta itemprop="keywords" content="Nightly Dev Notes">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="[NDN] Building a simple CRUD using GraphQL">
+  <meta name="twitter:description" content="Hi there 👽!
+In this article I wanted to play around and experiment with using GraphQL. And so, I made the simplest CRUD application I could came up with, a TODO list.
+So… GraphQL… right? In case you don’t know, GraphQL is a query language for APIs that allows clients to request exactly the data they need. It provides efficient, flexible, and precise data fetching compared to traditional REST APIs.">
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2024-06-20 23:57:02 &#43;0200 CEST" />
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text ">
+                hello</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="/posts">Blog</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+  <main class="post">
+
+    <div class="post-info">
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        4 minutes
+
+        
+      </p>
+    </div>
+
+    <article>
+      <h1 class="post-title">
+        <a href="http://localhost:1313/posts/crud-graphql/">[NDN] Building a simple CRUD using GraphQL</a>
+      </h1>
+
+      
+
+      
+
+      
+
+      <div class="post-content">
+        <p>Hi there 👽!</p>
 <p>In this article I wanted to play around and experiment with using <strong>GraphQL</strong>. And so, I made the simplest CRUD application I could came up with, a TODO list.</p>
 <h2 id="so-graphql-right">So&hellip; GraphQL&hellip; right?</h2>
 <p>In case you don&rsquo;t know, GraphQL is a query language for APIs that allows clients to request exactly the data they need. It provides efficient, flexible, and precise data fetching compared to traditional REST APIs.</p>
@@ -128,27 +255,97 @@ Now, let&rsquo;s suppose you need different parts of that entity on the frontend
 In particular, it shines when the data grows in complexity and it needs to be consumed from multiple sources. By defining just the data that we need, we can save unnecesary calls to other services to retrieve data that we know we are not going to use.</p>
 <p>For now, this is all.
 Signing out&hellip;</p>
-]]></content>
-        </item>
+
+      </div>
+    </article>
+
+    <hr />
+
+    <div class="post-info">
+      
+    <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg>
+
+        <span class="tag"><a href="http://localhost:1313/tags/nightly-dev-notes/">Nightly Dev Notes</a></span>
         
-        <item>
-            <title>[Nightly Dev Notes] Introduction</title>
-            <link>http://localhost:1313/posts/hello-world/</link>
-            <pubDate>Wed, 19 Jun 2024 00:26:31 +0200</pubDate>
+    </p>
+
+      
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+        658 Words
+      </p>
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        
+          2024-06-20 23:57
+        
+
+         
+          
+        
+      </p>
+    </div>
+
+    
+    <div class="pagination">
+        
+
+        <div class="pagination__buttons">
             
-            <guid>http://localhost:1313/posts/hello-world/</guid>
-            <description>Hi there 👽!
-With this series of blog posts I&amp;rsquo;d like to experiment with different concepts and ideas. The goal is to make short posts with very specific concepts, isolated, without the need to build a full application to see them in action.
-Why &amp;ldquo;Nightly&amp;rdquo;? Because most likely I&amp;rsquo;ll be doing this on my spare time, and that usualy only happens at night.
-I hope you find this useful, maybe as an example, maybe as inspiration or maybe to motivate you to use the concepts I explain, making you realise they weren&amp;rsquo;t concepts so difficult after all.</description>
-            <content type="html"><![CDATA[<p>Hi there 👽!</p>
-<p>With this series of blog posts I&rsquo;d like to experiment with different concepts and ideas. The goal is to make short posts with very specific concepts, isolated, without the need to build a full application to see them in action.</p>
-<p>Why &ldquo;<em>Nightly</em>&rdquo;? Because most likely I&rsquo;ll be doing this on my spare time, and that usualy only happens at night.</p>
-<p>I hope you find this useful, maybe as an example, maybe as inspiration or maybe to motivate you to use the concepts I explain, making you realise they weren&rsquo;t concepts so difficult after all.</p>
-<p>For now, this is all.
-Signing out&hellip;</p>
-]]></content>
-        </item>
+
+            
+            <span class="button next">
+                <a href="http://localhost:1313/posts/hello-world/">
+                    <span class="button__text">[Nightly Dev Notes] Introduction</span>
+                    <span class="button__icon">→</span>
+                </a>
+            </span>
+            
+        </div>
+    </div>
+
+
+    
+
+    
+
+    
+
+  </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    
+</footer>
+
+            
+        </div>
+
         
-    </channel>
-</rss>
+
+
+
+<script type="text/javascript" src="/bundle.min.85fad2de4f13fec3bcb3b3cb10430cdb44a7b4a9749b32938241a5c6e77718df7624f1002b880521fdc26e24ec1077fda214bf1cb36ee3045510760d09638cae.js" integrity="sha512-hfrS3k8T/sO8s7PLEEMM20SntKl0mzKTgkGlxud3GN92JPEAK4gFIf3CbiTsEHf9ohS/HLNu4wRVEHYNCWOMrg=="></script>
+
+
+
+
+    </body>
+</html>
