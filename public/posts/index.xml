@@ -4,7 +4,7 @@
         <link>http://localhost:1313/posts/</link>
         <description>Recent content in Posts on Hey 👽, I&#39;m Javier</description>
         <generator>Hugo -- gohugo.io</generator>
-        <language>en-us</language>
+        <language>en</language>
         <lastBuildDate>Thu, 20 Jun 2024 23:57:02 +0200</lastBuildDate>
         <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
         
@@ -34,25 +34,25 @@ Now, let&rsquo;s suppose you need different parts of that entity on the frontend
 <p>If you want to follow along, you have all the code in my <a href="https://github.com/Alchemistst/todo-list-graphQL">repo</a>.</p>
 <h3 id="defining-the-schema">Defining the schema</h3>
 <p>We&rsquo;ll start by defining the schema for our TODOs:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#75715e">// Our GraphQL Schema
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">schema</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">buildSchema</span>(<span style="color:#e6db74">`
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  type Todo {
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    id: ID!
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    content: String!
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    isDone: Boolean
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    }
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  type Query {
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    getTodo(id: ID!): Todo
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    getAll: [Todo]
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    }
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  type Mutation {
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    createTodo(content: String): Todo
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    updateTodo(id: ID!, content: String, isDone: Boolean): Todo
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    deleteTodo(id: ID!): String
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    }
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">`</span>);
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="c1">// Our GraphQL Schema
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">var</span> <span class="nx">schema</span> <span class="o">=</span> <span class="nx">buildSchema</span><span class="p">(</span><span class="sb">`
+</span></span></span><span class="line"><span class="cl"><span class="sb">  type Todo {
+</span></span></span><span class="line"><span class="cl"><span class="sb">    id: ID!
+</span></span></span><span class="line"><span class="cl"><span class="sb">    content: String!
+</span></span></span><span class="line"><span class="cl"><span class="sb">    isDone: Boolean
+</span></span></span><span class="line"><span class="cl"><span class="sb">    }
+</span></span></span><span class="line"><span class="cl"><span class="sb">    
+</span></span></span><span class="line"><span class="cl"><span class="sb">  type Query {
+</span></span></span><span class="line"><span class="cl"><span class="sb">    getTodo(id: ID!): Todo
+</span></span></span><span class="line"><span class="cl"><span class="sb">    getAll: [Todo]
+</span></span></span><span class="line"><span class="cl"><span class="sb">    }
+</span></span></span><span class="line"><span class="cl"><span class="sb">      
+</span></span></span><span class="line"><span class="cl"><span class="sb">  type Mutation {
+</span></span></span><span class="line"><span class="cl"><span class="sb">    createTodo(content: String): Todo
+</span></span></span><span class="line"><span class="cl"><span class="sb">    updateTodo(id: ID!, content: String, isDone: Boolean): Todo
+</span></span></span><span class="line"><span class="cl"><span class="sb">    deleteTodo(id: ID!): String
+</span></span></span><span class="line"><span class="cl"><span class="sb">    }
+</span></span></span><span class="line"><span class="cl"><span class="sb">`</span><span class="p">);</span>
 </span></span></code></pre></div><p>In GraphQL we have three basic types: <strong>Query</strong>, <strong>Mutation</strong>, <strong>Object</strong> types.</p>
 <ul>
 <li><em>Object</em> types are the actual entities you want to expose to the world.</li>
@@ -61,69 +61,69 @@ Now, let&rsquo;s suppose you need different parts of that entity on the frontend
 </ul>
 <h3 id="implementing-each-endpoint">Implementing each endpoint</h3>
 <p>Now it&rsquo;s time to tell graphQL how to fill all those queries and mutations. For each of them, we&rsquo;ll define an endpoint on our Express server:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#75715e">// Resolvers for each API endpoint
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">root</span> <span style="color:#f92672">=</span> {
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">getTodo</span>({ <span style="color:#a6e22e">id</span> }) {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">fakeDB</span>[<span style="color:#a6e22e">id</span>]) {
-</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> Error(<span style="color:#e6db74">`ID </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">id</span><span style="color:#e6db74">}</span><span style="color:#e6db74"> does not belong to any TODO kiddo!`</span>);
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">fakeDB</span>[<span style="color:#a6e22e">id</span>];
-</span></span><span style="display:flex;"><span>  },
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">getAll</span>() {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> Object.<span style="color:#a6e22e">values</span>(<span style="color:#a6e22e">fakeDB</span>);
-</span></span><span style="display:flex;"><span>  },
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">createTodo</span>({ <span style="color:#a6e22e">content</span> }) {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">v4</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">uuidv4</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#34;uuid&#34;</span>);
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">id</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">uuidv4</span>();
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">todo</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Todo</span>(<span style="color:#a6e22e">id</span>, <span style="color:#a6e22e">content</span>);
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fakeDB</span>[<span style="color:#a6e22e">id</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">todo</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">todo</span>;
-</span></span><span style="display:flex;"><span>  },
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">updateTodo</span>({ <span style="color:#a6e22e">id</span>, <span style="color:#a6e22e">content</span>, <span style="color:#a6e22e">isDone</span> }) {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">fakeDB</span>[<span style="color:#a6e22e">id</span>]) {
-</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> Error(<span style="color:#e6db74">`ID </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">id</span><span style="color:#e6db74">}</span><span style="color:#e6db74"> does not belong to any TODO kiddo!`</span>);
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">content</span>) {
-</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">fakeDB</span>[<span style="color:#a6e22e">id</span>].<span style="color:#a6e22e">content</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">content</span>;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">isDone</span>) {
-</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">fakeDB</span>[<span style="color:#a6e22e">id</span>].<span style="color:#a6e22e">isDone</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">isDone</span>;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">fakeDB</span>[<span style="color:#a6e22e">id</span>];
-</span></span><span style="display:flex;"><span>  },
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">deleteTodo</span>({ <span style="color:#a6e22e">id</span> }) {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">fakeDB</span>[<span style="color:#a6e22e">id</span>]) {
-</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> Error(<span style="color:#e6db74">`ID </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">id</span><span style="color:#e6db74">}</span><span style="color:#e6db74"> does not belong to any TODO kiddo!`</span>);
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">delete</span> <span style="color:#a6e22e">fakeDB</span>[<span style="color:#a6e22e">id</span>];
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">id</span>;
-</span></span><span style="display:flex;"><span>  },
-</span></span><span style="display:flex;"><span>};
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="c1">// Resolvers for each API endpoint
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">var</span> <span class="nx">root</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">getTodo</span><span class="p">({</span> <span class="nx">id</span> <span class="p">})</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">fakeDB</span><span class="p">[</span><span class="nx">id</span><span class="p">])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="sb">`ID </span><span class="si">${</span><span class="nx">id</span><span class="si">}</span><span class="sb"> does not belong to any TODO kiddo!`</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">fakeDB</span><span class="p">[</span><span class="nx">id</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">getAll</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">values</span><span class="p">(</span><span class="nx">fakeDB</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">createTodo</span><span class="p">({</span> <span class="nx">content</span> <span class="p">})</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="p">{</span> <span class="nx">v4</span><span class="o">:</span> <span class="nx">uuidv4</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&#34;uuid&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">id</span> <span class="o">=</span> <span class="nx">uuidv4</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">todo</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Todo</span><span class="p">(</span><span class="nx">id</span><span class="p">,</span> <span class="nx">content</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fakeDB</span><span class="p">[</span><span class="nx">id</span><span class="p">]</span> <span class="o">=</span> <span class="nx">todo</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">todo</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">updateTodo</span><span class="p">({</span> <span class="nx">id</span><span class="p">,</span> <span class="nx">content</span><span class="p">,</span> <span class="nx">isDone</span> <span class="p">})</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">fakeDB</span><span class="p">[</span><span class="nx">id</span><span class="p">])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="sb">`ID </span><span class="si">${</span><span class="nx">id</span><span class="si">}</span><span class="sb"> does not belong to any TODO kiddo!`</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">content</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">fakeDB</span><span class="p">[</span><span class="nx">id</span><span class="p">].</span><span class="nx">content</span> <span class="o">=</span> <span class="nx">content</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">isDone</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">fakeDB</span><span class="p">[</span><span class="nx">id</span><span class="p">].</span><span class="nx">isDone</span> <span class="o">=</span> <span class="nx">isDone</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">fakeDB</span><span class="p">[</span><span class="nx">id</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">deleteTodo</span><span class="p">({</span> <span class="nx">id</span> <span class="p">})</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">fakeDB</span><span class="p">[</span><span class="nx">id</span><span class="p">])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="sb">`ID </span><span class="si">${</span><span class="nx">id</span><span class="si">}</span><span class="sb"> does not belong to any TODO kiddo!`</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">delete</span> <span class="nx">fakeDB</span><span class="p">[</span><span class="nx">id</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">id</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
 </span></span></code></pre></div><h3 id="cherry-on-the-cake-queries-and-mutations">Cherry on the cake: Queries and Mutations</h3>
 <p>It&rsquo;s time! From graphiQL we can query the API. Let&rsquo;s create a TODO, we will run the following:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-graphql" data-lang="graphql"><span style="display:flex;"><span><span style="color:#66d9ef">mutation</span> {
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">createTodo</span>(content: <span style="color:#e6db74">&#34;Feed Mr Mittens&#34;</span>) {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">id</span>,
-</span></span><span style="display:flex;"><span>    content,
-</span></span><span style="display:flex;"><span>    isDone
-</span></span><span style="display:flex;"><span>  }
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>Now, let&rsquo;s asume bringing the <em>content</em> of the TODO is a very expensive operation, and we really only need the <em>id</em> field after the creation. Well, no problem, we can change the query to this:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-graphql" data-lang="graphql"><span style="display:flex;"><span><span style="color:#66d9ef">mutation</span> {
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">createTodo</span>(content: <span style="color:#e6db74">&#34;Feed Mr Mittens&#34;</span>) {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">id</span>
-</span></span><span style="display:flex;"><span>  }
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>What was that? Do you only need the <em>id</em> and <em>isDone</em> fields when you fetch a TODO? Not a problem boss:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-graphql" data-lang="graphql"><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>  getTodo(id: <span style="color:#e6db74">&#34;TODO_ID&#34;</span>) {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">id</span>,
-</span></span><span style="display:flex;"><span>    isDone
-</span></span><span style="display:flex;"><span>  }
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h2 id="the-takeaway">The Takeaway</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-graphql" data-lang="graphql"><span class="line"><span class="cl"><span class="kd">mutation</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nc">createTodo</span><span class="p">(</span><span class="py">content</span><span class="p">:</span><span class="w"> </span><span class="s">&#34;Feed Mr Mittens&#34;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nc">id</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="py">content</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="py">isDone</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><p>Now, let&rsquo;s asume bringing the <em>content</em> of the TODO is a very expensive operation, and we really only need the <em>id</em> field after the creation. Well, no problem, we can change the query to this:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-graphql" data-lang="graphql"><span class="line"><span class="cl"><span class="kd">mutation</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nc">createTodo</span><span class="p">(</span><span class="py">content</span><span class="p">:</span><span class="w"> </span><span class="s">&#34;Feed Mr Mittens&#34;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nc">id</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><p>What was that? Do you only need the <em>id</em> and <em>isDone</em> fields when you fetch a TODO? Not a problem boss:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-graphql" data-lang="graphql"><span class="line"><span class="cl"><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="py">getTodo</span><span class="p">(</span><span class="py">id</span><span class="p">:</span><span class="w"> </span><span class="s">&#34;TODO_ID&#34;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nc">id</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="py">isDone</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><h2 id="the-takeaway">The Takeaway</h2>
 <p>GraphQL allows for tons of flexibility when defining endpoints.
 In particular, it shines when the data grows in complexity and it needs to be consumed from multiple sources. By defining just the data that we need, we can save unnecesary calls to other services to retrieve data that we know we are not going to use.</p>
 <p>For now, this is all.

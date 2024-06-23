@@ -5,7 +5,7 @@
     <link>http://localhost:1313/tags/nightly-dev-notes/</link>
     <description>Recent content in Nightly Dev Notes on Hey 👽, I&#39;m Javier</description>
     <generator>Hugo</generator>
-    <language>en-us</language>
+    <language>en</language>
     <lastBuildDate>Thu, 20 Jun 2024 23:57:02 +0200</lastBuildDate>
     <atom:link href="http://localhost:1313/tags/nightly-dev-notes/index.xml" rel="self" type="application/rss+xml" />
     <item>
@@ -13,7 +13,7 @@
       <link>http://localhost:1313/posts/crud-graphql/</link>
       <pubDate>Thu, 20 Jun 2024 23:57:02 +0200</pubDate>
       <guid>http://localhost:1313/posts/crud-graphql/</guid>
-      <description>Hi there 👽!&#xA;In this article I wanted to play around and experiment with using GraphQL. And so, I made the simplest CRUD application I could came up with, a TODO list.&#xA;Yo, GraphQ&amp;hellip; what? In case you don&amp;rsquo;t know, GraphQL is a query language for APIs that allows clients to request exactly the data they need. It provides efficient, flexible, and precise data fetching compared to traditional REST APIs.</description>
+      <description>Hi there 👽!&#xA;In this article I wanted to play around and experiment with using GraphQL. And so, I made the simplest CRUD application I could came up with, a TODO list.&#xA;So&amp;hellip; GraphQL&amp;hellip; right? In case you don&amp;rsquo;t know, GraphQL is a query language for APIs that allows clients to request exactly the data they need. It provides efficient, flexible, and precise data fetching compared to traditional REST APIs.</description>
     </item>
     <item>
       <title>[Nightly Dev Notes] Introduction</title>

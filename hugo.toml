@@ -5,6 +5,9 @@ theme = 'hello-friend-ng'
 [params]
 homeSubtitle = "let's create something amazing"
 
+[languages.en.params.logo]
+      logoText = "NightlyDev"
+
   [[params.social]]
     name = "email"
     url  = "mailto:javiermariagarciacuevas@gmail.com"
@@ -16,3 +19,7 @@ homeSubtitle = "let's create something amazing"
     identifier = "blog"
     name       = "Blog"
     url        = "/posts"
+
+[markup]
+  [markup.highlight]
+    noClasses = false
