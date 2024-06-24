@@ -1,24 +1,34 @@
 baseURL = 'https://example.org/'
 languageCode = 'en-us'
-title = "Hey 👽, I'm Javier"
+title = "NightlyDev"
 theme = 'hello-friend-ng'
+
 [params]
+subtitle = "let's create something amazing"
+homePageTitle = "Hey 👽, I'm Javier"
 homeSubtitle = "let's create something amazing"
+EnableThemeToggle = true
+
+[[params.social]]
+  name = "email"
+  url  = "mailto:javiermariagarciacuevas@gmail.com"
+
+[[params.social]]
+  name = "linkedin"
+  url  = "https://www.linkedin.com/in/javiermgc"
 
 [languages.en.params.logo]
       logoText = "NightlyDev"
 
-  [[params.social]]
-    name = "email"
-    url  = "mailto:javiermariagarciacuevas@gmail.com"
 
-  [[params.social]]
-    name = "linkedin"
-    url  = "https://www.linkedin.com/in/javiermgc"
 [[menu.main]]
     identifier = "blog"
     name       = "Blog"
     url        = "/posts"
+[[menu.main]]
+    identifier = "about"
+    name       = "About"
+    url        = "/about"
 
 [markup]
   [markup.highlight]
