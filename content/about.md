@@ -14,4 +14,4 @@ Software Developer @ *Inditex*
 More on [LinkedIn ->](https://linkedin.com/in/javiermgc)
 
 ### Contact me
-Say hi at [javiermariagarciacuevas@gmail.com](mailto:javiermariagarciacuevas@gmail.com)
+Say hi at {{< cloakemail "javiermariagarciacuevas@gmail.com" >}}
