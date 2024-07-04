@@ -2,22 +2,25 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>http://localhost:1313/posts/gpt-audio-transcript/</loc>
+    <lastmod>2024-06-30T00:57:02+02:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/nightly-dev-notes/</loc>
+    <lastmod>2024-06-30T00:57:02+02:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/</loc>
+    <lastmod>2024-06-30T00:57:02+02:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/</loc>
+    <lastmod>2024-06-30T00:57:02+02:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/</loc>
+    <lastmod>2024-06-30T00:57:02+02:00</lastmod>
+  </url><url>
     <loc>http://localhost:1313/about/</loc>
     <lastmod>2024-06-24T13:00:39+02:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/</loc>
-    <lastmod>2024-06-24T13:00:39+02:00</lastmod>
-  </url><url>
     <loc>http://localhost:1313/posts/crud-graphql/</loc>
-    <lastmod>2024-06-20T23:57:02+02:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/nightly-dev-notes/</loc>
-    <lastmod>2024-06-20T23:57:02+02:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/posts/</loc>
-    <lastmod>2024-06-20T23:57:02+02:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/</loc>
     <lastmod>2024-06-20T23:57:02+02:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/posts/hello-world/</loc>
