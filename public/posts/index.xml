@@ -14,8 +14,120 @@
             <pubDate>Sun, 30 Jun 2024 00:57:02 +0200</pubDate>
             
             <guid>http://localhost:1313/posts/gpt-audio-transcript/</guid>
-            <description>Hi there 👽!</description>
+            <description>Hi there 👽!
+In this article I wanted to do a quick demonstration on how to integrate with OpenAI Whipser model to transcript an audio file, using Typescript and ffmpeg.
+In my repo you have the full code of the script that I made for this article, as well as instructions on how to use it as is.
+Let&amp;rsquo;s get started!
+OpenAI integration I decided to integrate with OpenAI using a HTTP client (axios in this case) directly.</description>
             <content type="html"><![CDATA[<p>Hi there 👽!</p>
+<p>In this article I wanted to do a quick demonstration on how to integrate with <strong>OpenAI Whipser</strong> model to transcript an audio file, using <strong>Typescript</strong> and <strong>ffmpeg</strong>.</p>
+<p>In my <a href="https://github.com/Alchemistst/gpt-audio-transcript">repo</a> you have the full code of the script that I made for this article, as well as instructions on how to use it as is.</p>
+<p>Let&rsquo;s get started!</p>
+<h2 id="openai-integration">OpenAI integration</h2>
+<p>I decided to integrate with OpenAI using a HTTP client (axios in this case) directly.
+The way you have to structure the request is not too complicated, but you must pay attention to a couple of details:</p>
+<ol>
+<li>It has to be a POST operation to <code>https://api.openai.com/v1/audio/transcriptions</code></li>
+<li>The body <em>Content Type</em> has to be of type <code>multipart/form-data</code> and has to have the following fields:
+<ul>
+<li><code>model</code>: which specifies the model to use.</li>
+<li><code>file</code>: expects a <a href="https://developer.mozilla.org/en-US/docs/Web/API/Blob">Blob</a> of your audio.</li>
+<li><code>language</code>: not required, but I had the best results when sending it. Must follow the <a href="https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes">ISO-639</a> standard.</li>
+</ul>
+</li>
+<li>As authorization headers, you must pass your OpenAI API key.
+Here&rsquo;s the code for just the OpenAI integration:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Typescript" data-lang="Typescript"><span class="line"><span class="cl"> <span class="kr">const</span> <span class="nx">formData</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">FormData</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">formData</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;file&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="k">new</span> <span class="nx">Blob</span><span class="p">([</span><span class="k">await</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">promises</span><span class="p">.</span><span class="nx">readFile</span><span class="p">(</span><span class="nx">filePath</span><span class="p">)]),</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">filePath</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="nx">outputDirectory</span><span class="p">,</span> <span class="s2">&#34;&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">formData</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s2">&#34;model&#34;</span><span class="p">,</span> <span class="s2">&#34;whisper-1&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">formData</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s2">&#34;language&#34;</span><span class="p">,</span> <span class="nx">language</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">try</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">response</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">speechToTextAPI</span><span class="p">,</span> <span class="nx">formData</span><span class="p">,</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">headers</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;Content-Type&#34;</span><span class="o">:</span> <span class="s2">&#34;multipart/form-data&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">Authorization</span><span class="o">:</span> <span class="sb">`Bearer </span><span class="si">${</span><span class="nx">apiKey</span><span class="si">}</span><span class="sb">`</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">});</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">response</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">text</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="sb">`Error transcribing </span><span class="si">${</span><span class="nx">filePath</span><span class="si">}</span><span class="sb">:`</span><span class="p">,</span> <span class="nx">error</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="kc">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span></code></pre></div><p>This is by no means an exhaustive description of all the API&rsquo;s capabilities. Find more info of all its potential <a href="https://platform.openai.com/docs/guides/speech-to-text">here</a>.</p>
+<h2 id="audio-file-processing">Audio file processing</h2>
+<p>Okay, so we already know how to integrate with OpenAI to send our audio and get its transcription. But now we need a way to get the audio from our computer, load it to the script, and then get the results. Easy, right?</p>
+<p>Well&hellip; There are a couple of caveats.</p>
+<p>First, the aforementioned endpoint <strong>can only process chunks of 5 min of audio</strong>, so if we want to transcript a longer audio, we&rsquo;ll need to chop the audio first in chunks no longer than 5 min.</p>
+<p>For this task I decided to use <code>fluent-ffmpeg</code>, a Typescrypt wrapper for ffmpeg, to process audio. The problem here is that, the way ffmpeg chops and process de audio in parallel, doesn&rsquo;t ensure the order of the chops will be maintained.</p>
+<p>Plus, as soon as each chop is loaded, it will call OpenAI to get its transcription, and this is also an <em>asynchronous operation</em>, meaning that some requests may take more time than others, messing even more with the order of the chops.</p>
+<p>In order to get a coherent transcription, we have to get a reference to the order in which the chops need to be, then send that to OpenAI without loosing these references, so that when we get all the responses from all the audio chops, we can place them back together in the original order and the transcription makes sense.</p>
+<p>So, this was my solution:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Typescript" data-lang="Typescript"><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">inputFileName</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">basename</span><span class="p">(</span><span class="nx">filePath</span><span class="p">,</span> <span class="nx">path</span><span class="p">.</span><span class="nx">extname</span><span class="p">(</span><span class="nx">filePath</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">Ffmpeg</span><span class="p">.</span><span class="nx">ffprobe</span><span class="p">(</span><span class="nx">filePath</span><span class="p">,</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">metadata</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s2">&#34;Error getting metadata:&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">totalDuration</span> <span class="o">=</span> <span class="nx">metadata</span><span class="p">.</span><span class="nx">format</span><span class="p">.</span><span class="nx">duration</span> <span class="o">??</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">numberOfSegments</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">ceil</span><span class="p">(</span><span class="nx">totalDuration</span> <span class="o">/</span> <span class="nx">duration</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">let</span> <span class="nx">transcript</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Map</span><span class="p">&lt;</span><span class="nt">number</span><span class="err">,</span> <span class="na">string</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">finishCallback</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="kr">const</span> <span class="nx">outputFileName</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">outputDir</span><span class="p">,</span> <span class="sb">`</span><span class="si">${</span><span class="nx">inputFileName</span><span class="si">}</span><span class="sb">.txt`</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="kd">let</span> <span class="nx">output</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">numberOfSegments</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">output</span> <span class="o">=</span> <span class="sb">`</span><span class="si">${</span><span class="nx">output</span><span class="si">}</span><span class="sb"> </span><span class="si">${</span><span class="nx">transcript</span><span class="p">.</span><span class="kr">get</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span><span class="si">}</span><span class="sb">`</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">fs</span><span class="p">.</span><span class="nx">writeFileSync</span><span class="p">(</span><span class="nx">outputFileName</span><span class="p">,</span> <span class="nx">output</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;Transcript saved to &#34;</span> <span class="o">+</span> <span class="nx">outputFileName</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">let</span> <span class="nx">finishCount</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">numberOfSegments</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="kr">const</span> <span class="nx">startTime</span> <span class="o">=</span> <span class="nx">i</span> <span class="o">*</span> <span class="nx">duration</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="kr">const</span> <span class="nx">outputFileName</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">outputDir</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="sb">`</span><span class="si">${</span><span class="nx">inputFileName</span><span class="si">}</span><span class="sb">_part_</span><span class="si">${</span><span class="nx">i</span> <span class="o">+</span> <span class="mi">1</span><span class="si">}</span><span class="sb">.mp3`</span>
+</span></span><span class="line"><span class="cl">      <span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">Ffmpeg</span><span class="p">(</span><span class="nx">filePath</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">.</span><span class="nx">setStartTime</span><span class="p">(</span><span class="nx">startTime</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">.</span><span class="nx">setDuration</span><span class="p">(</span><span class="nx">duration</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">.</span><span class="nx">output</span><span class="p">(</span><span class="nx">outputFileName</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s2">&#34;end&#34;</span><span class="p">,</span> <span class="kr">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="kr">const</span> <span class="nx">partialTranscript</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">sendToSpeechToText</span><span class="p">(</span><span class="nx">outputFileName</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">          <span class="k">if</span> <span class="p">(</span><span class="nx">partialTranscript</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">transcript</span><span class="p">.</span><span class="kr">set</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">partialTranscript</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">          <span class="p">}</span>
+</span></span><span class="line"><span class="cl">          <span class="nx">finishCount</span><span class="o">++</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">          <span class="k">if</span> <span class="p">(</span><span class="nx">finishCount</span> <span class="o">===</span> <span class="nx">numberOfSegments</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">finishCallback</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">          <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">})</span>
+</span></span><span class="line"><span class="cl">        <span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s2">&#34;error&#34;</span><span class="p">,</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s2">&#34;Error processing segment:&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">})</span>
+</span></span><span class="line"><span class="cl">        <span class="p">.</span><span class="nx">run</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">});</span>
+</span></span></code></pre></div><p>To solve the problem of asynchronicity (if that&rsquo;s even word), we calculate first the <code>numberOfSegments</code> the audio is going to result. Then, the audio gets chopped in that many segments, and every time a chop is processed, we store its position <code>i</code> and its transcription in the <code>transcript</code> map.</p>
+<p>After all this, we increase the <code>finishCount</code> variable, and if it is less than the <code>numberOfSegments</code> that means that we are still waiting for some of the audio files to get processed.
+But, if <code>finishCount</code> it&rsquo;s equal to <code>numberOfSegments</code>, that means that all the chops where processed and we are ready to put everything together.</p>
+<p>And that&rsquo;s what we do in <code>finishCallback()</code>, we access all the keys in order, joining all the partial transcripts.</p>
+<p>Hooray! We have our transcript! 🥳</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>As you have seen, interacting with OpenAI API and process audio wasn&rsquo;t that difficult, was it?</p>
+<p>For sure this script has a lot of room for optimization. For instance, chopping the audio with this method creates little artifacts on the audio files, that show on the transcript as a result, due to being cut off in the middle of a sentence or word. This could be fixed trying to align the chops with silences in the audio (still not perfect, but might be an improvement).</p>
+<p>In any case, I hope you have found this post useful or inspiring to go out there and get coding.</p>
+<p>For now, this is all.
+Signing out&hellip;</p>
 ]]></content>
         </item>
         
