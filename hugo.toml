@@ -10,12 +10,17 @@ homeSubtitle = "let's create something amazing"
 EnableThemeToggle = true
 
 [[params.social]]
-  name = "email"
-  url  = "mailto:javiermariagarciacuevas@gmail.com"
+  name = "github"
+  url  = "https://github.com/javiermgc"
 
 [[params.social]]
   name = "linkedin"
   url  = "https://www.linkedin.com/in/javiermgc"
+
+[[params.social]]
+  name = "email"
+  url  = "mailto:javiermariagarciacuevas@gmail.com"
+
 
 [languages.en.params.logo]
       logoText = "NightlyDev"
